@@ -22,9 +22,25 @@ code_task:
     - design_task
   output_file: output/{module_name}
 
+ux_design_task:
+  description: >
+    Create UX recommendations and wireframes for the user interface based on the backend functionality.
+    Analyze the backend design and suggest the best user experience approach for the application.
+    Focus on user workflows, interface layout, and usability recommendations.
+    Here are the requirements: {requirements}
+  expected_output: >
+    UX design recommendations including user workflows, wireframes, and interface suggestions.
+    The output should include specific recommendations for the frontend engineer to implement.
+    IMPORTANT: Output in markdown format with clear sections for workflows, wireframes, and recommendations.
+  agent: ux_engineer
+  context:
+    - design_task
+  output_file: output/ux_design.md
+
 frontend_task:
   description: >
     Write a gradio UI in a module app.py that demonstrates the given backend class in {module_name}.
+    Implement the UX recommendations from the UX engineer where applicable.
     Assume there is only 1 user, and keep the UI very simple indeed - just a prototype or demo.
     Here are the requirements: {requirements}
   expected_output: >
@@ -35,6 +51,7 @@ frontend_task:
   agent: frontend_engineer
   context:
     - code_task
+    - ux_design_task
   output_file: output/app.py
 
 test_task:
